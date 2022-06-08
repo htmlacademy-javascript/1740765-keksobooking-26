@@ -9,6 +9,8 @@ function getRandomFPNumber(from, to, decimals) {
   return null;
 }
 
+getRandomFPNumber(1, 5,5, 4);
+
 // Function that gets random integer from range
 // Slightly (clumsily) redesigned first function
 
@@ -19,3 +21,5 @@ function getRandomNumber(from, to) {
   }
   return null;
 }
+
+getRandomNumber(1, 5,5);
