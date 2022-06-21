@@ -44,17 +44,16 @@ const PHOTOS = ['https://assets.htmlacademy.ru/content/intensive/javascript-1/ke
 'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'];
 
 
-function createAd () {
-  let avatarId =  getRandomPositiveInteger(1, 10);
-  if (avatarId < 10) {
-    avatarId = '0' + avatarId;
+function createAd (avatarID) {
+  if (avatarID < 10) {
+    avatarID = '0' + avatarID;
   }
   let latitude = getRandomPositiveFloat(35.65000, 35.70000, digits = 5);
   let longitude = getRandomPositiveFloat(139.70000, 139.80000, digits = 5);
 
   const ad = {
     author: {
-      avatarURL: 'img/avatars/user' + avatarId + '.png'
+      avatarURL: 'img/avatars/user' + avatarID + '.png'
     },
 
     offer: {
@@ -84,7 +83,7 @@ console.log(createAd());
 function createFewAds (numberOfAds) {
   let result = [];
   for (let i = 0; i < numberOfAds; i++) {
-    let ad = createAd();
+    let ad = createAd(i+1);
     result.push(ad);
   }
   return result
