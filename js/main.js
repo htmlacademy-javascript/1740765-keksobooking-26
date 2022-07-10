@@ -1,5 +1,5 @@
 import './util.js';
 import './data.js';
-import {createFewAds} from './data.js';
+import './markup.js';
 
-createFewAds(10);
+import {createFewAds} from './data.js';
