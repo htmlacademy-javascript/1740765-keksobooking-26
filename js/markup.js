@@ -19,12 +19,6 @@ for (let i = 0; i < generatedAds.length; i++) {
   setData(newCard.querySelector('.popup__text--address'), generatedAds[i].offer.address, 'textContent');
   setData(newCard.querySelector('.popup__text--price'), generatedAds[i].offer.price.toString(), 'textContent', `${generatedAds[i].offer.price.toString()} ₽/ночь`);
 
-  const cardType = newCard.querySelector('.popup__type');
-  const generatedType = generatedAds[i].offer.type;
-  if (generatedType === undefined) {
-    cardType.classList.add('hidden');
-  }
-
   const housingTypes = {
     flat: 'Квартира',
     bungalow: 'Бунгало',
@@ -33,22 +27,13 @@ for (let i = 0; i < generatedAds.length; i++) {
     hotel: 'Отель'
   };
 
-  const typesKeys = Object.keys(housingTypes);
-  const typesValues = Object.values(housingTypes);
-
-  for (let j = 0; j < typesKeys.length && j < typesValues.length; j++) {
-    if (typesKeys[j] === generatedType) {
-      cardType.textContent = typesValues[j];
-    }
-  }
-
+  setData(newCard.querySelector('.popup__type'), generatedAds[i].offer.type, 'textContent', housingTypes[generatedAds[i].offer.type]);
   setData(newCard.querySelector('.popup__text--capacity'), [generatedAds[i].offer.rooms, generatedAds[i].offer.guests], 'textContent', `${generatedAds[i].offer.rooms} комнаты для ${generatedAds[i].offer.guests} гостей`);
   setData(newCard.querySelector('.popup__text--time'), [generatedAds[i].offer.checkin, generatedAds[i].offer.checkout], 'textContent', `Заезд после ${generatedAds[i].offer.checkin}, выезд до ${generatedAds[i].offer.checkout}`);
 
-  const featuresContainer = newCard.querySelector('.popup__features');
   const features = newCard.querySelectorAll('.popup__feature');
   const generatedFeatures = generatedAds[i].offer.features;
-  const modifiers = generatedFeatures.map((feature) => 'popup__feature--' + feature);
+  const modifiers = generatedFeatures.map((feature) => `popup__feature--${feature}`);
   features.forEach((featuresItem) => {
     const modifier = featuresItem.classList[1];
     if (!modifiers.includes(modifier)) {
@@ -78,7 +63,3 @@ for (let i = 0; i < generatedAds.length; i++) {
 
   list.appendChild(newCard);
 }
-
-
-
-
