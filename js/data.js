@@ -23,10 +23,10 @@ function createAd (avatarID) {
     offer: {
       title: String.fromCharCode(Math.floor(Math.random() * 65535)),
       address: `${latitude}, ${longitude}`,
-      price: getRandomPositiveInteger(1, 1000000000),
+      price: getRandomPositiveInteger(5000, 100000),
       type: TYPES[getRandomPositiveInteger(0, 4)],
-      rooms: getRandomPositiveInteger(1, 1000),
-      guests: getRandomPositiveInteger(1, 1000),
+      rooms: getRandomPositiveInteger(1, 50),
+      guests: getRandomPositiveInteger(1, 50),
       checkin: CHECK_INS_AND_CHECK_OUTS[getRandomPositiveInteger(0, CHECK_INS_AND_CHECK_OUTS.length - 1)],
       checkout: CHECK_INS_AND_CHECK_OUTS[getRandomPositiveInteger(0, CHECK_INS_AND_CHECK_OUTS.length - 1)],
       features: FEATURES.slice(0, getRandomPositiveInteger(1, 6)),
