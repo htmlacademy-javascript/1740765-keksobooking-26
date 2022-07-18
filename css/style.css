@@ -1010,3 +1010,8 @@ fieldset {
 .hidden {
   display: none;
 }
+
+.error-label {
+  display: block;
+  color: #ff5635;
+}
