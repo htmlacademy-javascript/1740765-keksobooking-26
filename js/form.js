@@ -21,7 +21,7 @@ function validateGuests () {
 }
 
 function getGuestsErrorMessage () {
-  return "Комнат должно быть не меньше, чем гостей. 100 комнат — не для гостей."
+  return 'Комнат должно быть не меньше, чем гостей. 100 комнат — не для гостей.';
 }
 
 pristine.addValidator (rooms, validateGuests, getGuestsErrorMessage);
