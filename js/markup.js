@@ -66,8 +66,11 @@ const renderCards = function (generatedAds) {
 
     setData(newCard.querySelector('.popup__avatar'), generatedAds[i].author.avatarURL, 'src');
 
-    list.appendChild(newCard);
+    // list.appendChild(newCard);
+    return newCard;
   }
 };
 
-renderCards(createFewAds(3));
+export {renderCards};
+export {list}
+
