@@ -1,10 +1,8 @@
 import {changeState} from './change-state.js';
-import {renderCards} from './markup.js';
+import {renderCard} from './markup.js';
 import {createFewAds} from './data.js';
-import {list} from './markup.js';
 
 const generatedAds = createFewAds(3);
-renderCards(generatedAds);
 
 const resetButton = document.querySelector('.ad-form__reset');
 const map = L.map('map-canvas')
@@ -15,12 +13,12 @@ const map = L.map('map-canvas')
 
 map.whenReady(changeState);
 
-// L.tileLayer(
-//   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-//   {
-//     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//   },
-// ).addTo(map);
+L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  },
+).addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: './img/main-pin.svg',
@@ -57,27 +55,27 @@ resetButton.addEventListener('click', () => {
   }, 10);
 });
 
-let points = [];
-function trimAddress () {
-  for (let i = 0; i < generatedAds.length; i++) {
-    let result =  generatedAds[i].offer.address.split(',');
-    const lat  = result[0];
-    const lng = result[1];
-    points.push({lat: lat, lng: lng.slice(1)});
-}
-};
+// let points = [];
+// function trimAddress () {
+//   for (let i = 0; i < generatedAds.length; i++) {
+//     let result =  generatedAds[i].offer.address.split(',');
+//     const lat  = result[0];
+//     const lng = result[1];
+//     points.push({lat: lat, lng: lng.slice(1)});
+// }
+// };
 
-trimAddress();
+// trimAddress();
 
-const createCustomPopup = (point) => {
-  const template = document.querySelector('#card').content.querySelector('.popup');
-  const popupElement = template.cloneNode(true);
+// const createCustomPopup = (point) => {
+//   const template = document.querySelector('#card').content.querySelector('.popup');
+//   const popupElement = template.cloneNode(true);
 
-  popupElement.querySelector('.popup__title').textContent = point.title;
-  popupElement.querySelector('.popup__text--address').textContent = `Координаты: ${point.lat}, ${point.lng}`;
+//   popupElement.querySelector('.popup__title').textContent = point.title;
+//   popupElement.querySelector('.popup__text--address').textContent = `Координаты: ${point.lat}, ${point.lng}`;
 
-  return popupElement;
-};
+//   return popupElement;
+// };
 
 const icon = L.icon({
   iconUrl: './img/pin.svg',
@@ -85,11 +83,12 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-points.forEach(({lat, lng}) => {
+generatedAds.forEach((ad) => {
+  const {location: {lat, lng}} = ad;
   const marker = L.marker(
     {
       lat,
-      lng,
+      lng: lng,
     },
     {
       icon,
@@ -98,7 +97,8 @@ points.forEach(({lat, lng}) => {
 
   marker
   .addTo(map)
-  .bindPopup(renderCards(generatedAds));
+  .bindPopup(renderCard(ad));
 
 });
+
 

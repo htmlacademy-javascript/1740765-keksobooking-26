@@ -1,5 +1,3 @@
-import {createFewAds} from './data.js';
-
 const housingTypes = {
   flat: 'Квартира',
   bungalow: 'Бунгало',
@@ -9,14 +7,12 @@ const housingTypes = {
 };
 
 const cardTemplate = document.querySelector('#card').content;
-const list = document.querySelector('.map__canvas');
-const card = cardTemplate.querySelector('.popup');
 
-const setData = function (element, valuetoCheck, elementProperty = 'textContent', content) {
-  if (valuetoCheck.includes(undefined) || valuetoCheck === undefined) {
+const setData = function (element, valueToCheck, elementProperty = 'textContent', content) {
+  if (valueToCheck.includes(undefined) || valueToCheck === undefined) {
     element.classList.add('hidden');
   } else {
-    element[elementProperty] = content ? content : valuetoCheck;
+    element[elementProperty] = content ? content : valueToCheck;
   }
 };
 
@@ -45,32 +41,27 @@ const createPhotos = function (photosList, photo, generatedPhotos) {
   });
 };
 
-const renderCards = function (generatedAds) {
+const renderCard = function (card) {
 
-  for (let i = 0; i < generatedAds.length; i++) {
+  const newCard = cardTemplate.cloneNode(true);
 
-    const newCard = card.cloneNode(true);
+  setData(newCard.querySelector('.popup__title'), card.offer.title, 'textContent');
+  setData(newCard.querySelector('.popup__text--address'), card.offer.address, 'textContent');
+  setData(newCard.querySelector('.popup__text--price'), card.offer.price.toString(), 'textContent', `${card.offer.price.toString()} ₽/ночь`);
 
-    setData(newCard.querySelector('.popup__title'), generatedAds[i].offer.title, 'textContent');
-    setData(newCard.querySelector('.popup__text--address'), generatedAds[i].offer.address, 'textContent');
-    setData(newCard.querySelector('.popup__text--price'), generatedAds[i].offer.price.toString(), 'textContent', `${generatedAds[i].offer.price.toString()} ₽/ночь`);
+  setData(newCard.querySelector('.popup__type'), card.offer.type, 'textContent', housingTypes[card.offer.type]);
+  setData(newCard.querySelector('.popup__text--capacity'), [card.offer.rooms, card.offer.guests], 'textContent', `${card.offer.rooms} комнаты для ${card.offer.guests} гостей`);
+  setData(newCard.querySelector('.popup__text--time'), [card.offer.checkin, card.offer.checkout], 'textContent', `Заезд после ${card.offer.checkin}, выезд до ${card.offer.checkout}`);
 
-    setData(newCard.querySelector('.popup__type'), generatedAds[i].offer.type, 'textContent', housingTypes[generatedAds[i].offer.type]);
-    setData(newCard.querySelector('.popup__text--capacity'), [generatedAds[i].offer.rooms, generatedAds[i].offer.guests], 'textContent', `${generatedAds[i].offer.rooms} комнаты для ${generatedAds[i].offer.guests} гостей`);
-    setData(newCard.querySelector('.popup__text--time'), [generatedAds[i].offer.checkin, generatedAds[i].offer.checkout], 'textContent', `Заезд после ${generatedAds[i].offer.checkin}, выезд до ${generatedAds[i].offer.checkout}`);
+  setData(newCard.querySelector('.popup__description'), card.offer.description, 'textContent');
 
-    setData(newCard.querySelector('.popup__description'), generatedAds[i].offer.description, 'textContent');
+  createFeatures(newCard.querySelectorAll('.popup__feature'), card.offer.features);
+  createPhotos(newCard.querySelector('.popup__photos'), newCard.querySelector('.popup__photo'), card.offer.photos);
 
-    createFeatures(newCard.querySelectorAll('.popup__feature'), generatedAds[i].offer.features);
-    createPhotos(newCard.querySelector('.popup__photos'), newCard.querySelector('.popup__photo'), generatedAds[i].offer.photos);
+  setData(newCard.querySelector('.popup__avatar'), card.author.avatarURL, 'src');
 
-    setData(newCard.querySelector('.popup__avatar'), generatedAds[i].author.avatarURL, 'src');
-
-    // list.appendChild(newCard);
-    return newCard;
-  }
+  return newCard;
 };
 
-export {renderCards};
-export {list}
+export {renderCard};
 
