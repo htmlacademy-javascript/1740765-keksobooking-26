@@ -36,7 +36,7 @@ function createAd (avatarID) {
 
     location: {
       lat: latitude,
-      lang: longitude
+      lng: longitude
     }
   };
   return ad;
