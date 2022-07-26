@@ -85,7 +85,7 @@ const icon = L.icon({
 
 generatedAds.forEach((ad) => {
   const {location: {lat, lng}} = ad;
-  const marker = L.marker(
+  const pin = L.marker(
     {
       lat,
       lng: lng,
@@ -95,9 +95,9 @@ generatedAds.forEach((ad) => {
     },
   );
 
-  marker
-  .addTo(map)
-  .bindPopup(renderCard(ad));
+  pin
+    .addTo(map)
+    .bindPopup(renderCard(ad));
 
 });
 
