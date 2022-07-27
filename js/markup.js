@@ -6,7 +6,7 @@ const housingTypes = {
   hotel: 'Отель'
 };
 
-const cardTemplate = document.querySelector('#card').content;
+const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const setData = function (element, valueToCheck, elementProperty = 'textContent', content) {
   if (valueToCheck.includes(undefined) || valueToCheck === undefined) {
