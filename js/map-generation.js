@@ -1,4 +1,5 @@
 import {changeState} from './change-state.js';
+import { getData } from './load.js';
 import {renderCard} from './markup.js';
 import {TOKYO_CENTER_COORDINATES} from './util.js';
 const resetButton = document.querySelector('.ad-form__reset');
@@ -11,7 +12,20 @@ const map = L.map('map-canvas')
     lng: TOKYO_CENTER_COORDINATES.lng,
   }, 10);
 
-map.whenReady(() => changeState(false));
+const markerGroup = L.layerGroup().addTo(map);
+
+const clearMarkers = () => {
+  markerGroup.clearLayers();
+};
+
+const onSuccess = (data) => {
+  clearMarkers();
+  data.forEach((ad) => createMarker(ad));
+};
+
+changeState(true);
+
+map.on('load', changeState(false), getData(onSuccess, () => {}));
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -64,24 +78,21 @@ const icon = L.icon({
 });
 
 
-const addToMap = (data) => {
-  data.forEach((ad) => {
-    const {location: {lat, lng}} = ad;
-    const pin = L.marker(
-      {
-        lat,
-        lng
-      },
-      {
-        icon,
-      },
-    );
+function createMarker(ad) {
+  const {location: {lat, lng}} = ad;
+  const pin = L.marker(
+    {
+      lat,
+      lng
+    },
+    {
+      icon,
+    },
+  );
 
-    pin
-      .addTo(map)
-      .bindPopup(renderCard(ad));
+  pin
+    .addTo(markerGroup)
+    .bindPopup(renderCard(ad));
 
-  });
-};
+}
 
-export {addToMap};

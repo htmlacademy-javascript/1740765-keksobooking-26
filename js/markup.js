@@ -9,7 +9,7 @@ const housingTypes = {
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const setData = function (element, valueToCheck, elementProperty = 'textContent', content) {
-  if (valueToCheck.includes(undefined) || valueToCheck === undefined) {
+  if (valueToCheck === undefined || valueToCheck.includes(undefined)) {
     element.classList.add('hidden');
   } else {
     element[elementProperty] = content ? content : valueToCheck;
@@ -41,7 +41,7 @@ const createPhotos = function (photosList, photo, generatedPhotos) {
   });
 };
 
-const renderCard = function (card) {
+const renderCard = (card) => {
 
   const newCard = cardTemplate.cloneNode(true);
 
@@ -55,8 +55,10 @@ const renderCard = function (card) {
 
   setData(newCard.querySelector('.popup__description'), card.offer.description, 'textContent');
 
+  if (card.offer.features) {
   createFeatures(newCard.querySelectorAll('.popup__feature'), card.offer.features);
-  createPhotos(newCard.querySelector('.popup__photos'), newCard.querySelector('.popup__photo'), card.offer.photos);
+  }
+  // createPhotos(newCard.querySelector('.popup__photos'), newCard.querySelector('.popup__photo'), card.offer.photos);
 
   setData(newCard.querySelector('.popup__avatar'), card.author.avatarURL, 'src');
 
