@@ -1,7 +1,6 @@
 import {changeState} from './change-state.js';
 import {renderCard} from './markup.js';
 import {TOKYO_CENTER_COORDINATES} from './util.js';
-import {getData} from './load.js';
 const resetButton = document.querySelector('.ad-form__reset');
 
 changeState(true);
@@ -66,31 +65,23 @@ const icon = L.icon({
 
 
 const addToMap = (data) => {
-data.forEach((ad) => {
-  const {location: {lat, lng}} = ad;
-  const pin = L.marker(
-    {
-      lat,
-      lng
-    },
-    {
-      icon,
-    },
-  );
+  data.forEach((ad) => {
+    const {location: {lat, lng}} = ad;
+    const pin = L.marker(
+      {
+        lat,
+        lng
+      },
+      {
+        icon,
+      },
+    );
 
-  pin
-    .addTo(map)
-    .bindPopup(renderCard(ad));
+    pin
+      .addTo(map)
+      .bindPopup(renderCard(ad));
 
-});
+  });
 };
-
-const whatever = function (data) {
-  console.log(data);
-}
-
-getData((xd) => {
-  whatever(xd);
-});
 
 export {addToMap};

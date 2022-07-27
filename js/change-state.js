@@ -1,4 +1,4 @@
-import {TOKYO_CENTER_COORDINATES} from "./util.js";
+import {TOKYO_CENTER_COORDINATES} from './util.js';
 const changeState = (isDisabled) => {
   const form = document.querySelector('.ad-form');
   const fieldsSets = document.querySelectorAll('.ad-form__element', '.map__filter', '.map__filter', '.map__checkbox');
@@ -15,6 +15,6 @@ const changeState = (isDisabled) => {
   fieldsSets.forEach((element) => {
     element.toggleAttribute('disabled', isDisabled);
   });
-}
+};
 export {changeState};
 changeState();
