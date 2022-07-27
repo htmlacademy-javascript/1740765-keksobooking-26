@@ -8,9 +8,9 @@ const getData = (success, fail) => {
     })
     .then((response) => {
       success(response);
-    // })
-    // .catch((err) => {
-    //   fail(`Ошибка загрузки ${err}`);
+    })
+    .catch((err) => {
+      fail(`Ошибка загрузки ${err}`);
     });
 };
 
