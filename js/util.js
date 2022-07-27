@@ -20,6 +20,11 @@ function getRandomNumber(from, to) {
   return null;
 } */
 
+const TOKYO_CENTER_COORDINATES = {
+  lat: 35.652832,
+  lng: 139.839478,
+};
+
 function getRandomPositiveInteger (a, b) {
   const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
   const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
@@ -36,3 +41,4 @@ function getRandomPositiveFloat (a, b, digits) {
 
 export {getRandomPositiveInteger};
 export {getRandomPositiveFloat};
+export {TOKYO_CENTER_COORDINATES};

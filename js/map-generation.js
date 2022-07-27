@@ -1,17 +1,17 @@
 import {changeState} from './change-state.js';
 import {renderCard} from './markup.js';
-import {createFewAds} from './data.js';
-
-const generatedAds = createFewAds(3);
-
+import {TOKYO_CENTER_COORDINATES} from './util.js';
 const resetButton = document.querySelector('.ad-form__reset');
+
+changeState(true);
+
 const map = L.map('map-canvas')
   .setView({
-    lat: 35.652832,
-    lng: 139.839478,
+    lat: TOKYO_CENTER_COORDINATES.lat,
+    lng: TOKYO_CENTER_COORDINATES.lng,
   }, 10);
 
-map.whenReady(changeState);
+map.whenReady(() => changeState(false));
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -28,8 +28,8 @@ const mainPinIcon = L.icon({
 
 const marker = L.marker(
   {
-    lat: 35.652832,
-    lng: 139.839478,
+    lat: TOKYO_CENTER_COORDINATES.lat,
+    lng: TOKYO_CENTER_COORDINATES.lng,
   },
   {
     draggable: true,
@@ -39,43 +39,23 @@ const marker = L.marker(
 
 marker.addTo(map);
 
-marker.on('moveend', (evt) => {
+marker.on('drag', (evt) => {
   document.querySelector('#address').value = `${evt.target.getLatLng().lat.toFixed(5)}, ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 
 resetButton.addEventListener('click', () => {
+  document.querySelector('#address').value = `${TOKYO_CENTER_COORDINATES.lat}, ${TOKYO_CENTER_COORDINATES.lng}`;
+
   marker.setLatLng({
-    lat: 35.652832,
-    lng: 139.839478,
+    lat: TOKYO_CENTER_COORDINATES.lat,
+    lng: TOKYO_CENTER_COORDINATES.lng,
   });
 
   map.setView({
-    lat: 35.652832,
-    lng: 139.839478,
+    lat: TOKYO_CENTER_COORDINATES.lat,
+    lng: TOKYO_CENTER_COORDINATES.lng,
   }, 10);
 });
-
-// let points = [];
-// function trimAddress () {
-//   for (let i = 0; i < generatedAds.length; i++) {
-//     let result =  generatedAds[i].offer.address.split(',');
-//     const lat  = result[0];
-//     const lng = result[1];
-//     points.push({lat: lat, lng: lng.slice(1)});
-// }
-// };
-
-// trimAddress();
-
-// const createCustomPopup = (point) => {
-//   const template = document.querySelector('#card').content.querySelector('.popup');
-//   const popupElement = template.cloneNode(true);
-
-//   popupElement.querySelector('.popup__title').textContent = point.title;
-//   popupElement.querySelector('.popup__text--address').textContent = `Координаты: ${point.lat}, ${point.lng}`;
-
-//   return popupElement;
-// };
 
 const icon = L.icon({
   iconUrl: './img/pin.svg',
@@ -83,22 +63,25 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-generatedAds.forEach((ad) => {
-  const {location: {lat, lng}} = ad;
-  const pin = L.marker(
-    {
-      lat,
-      lng: lng,
-    },
-    {
-      icon,
-    },
-  );
 
-  pin
-    .addTo(map)
-    .bindPopup(renderCard(ad));
+const addToMap = (data) => {
+  data.forEach((ad) => {
+    const {location: {lat, lng}} = ad;
+    const pin = L.marker(
+      {
+        lat,
+        lng
+      },
+      {
+        icon,
+      },
+    );
 
-});
+    pin
+      .addTo(map)
+      .bindPopup(renderCard(ad));
 
+  });
+};
 
+export {addToMap};
