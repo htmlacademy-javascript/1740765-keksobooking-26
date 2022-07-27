@@ -26,20 +26,20 @@ const createFeatures = function (features, generatedFeatures) {
   });
 };
 
-const createPhotos = function (photosList, photo, generatedPhotos) {
+// const createPhotos = function (photosList, photo, generatedPhotos) {
 
-  photo.src = generatedPhotos[0];
-  generatedPhotos.shift();
+//   photo.src = generatedPhotos[0];
+//   generatedPhotos.shift();
 
-  generatedPhotos.forEach((item) => {
-    const newPhoto = photo.cloneNode(true);
-    if (item === undefined) {
-      newPhoto.classlist.add('hidden');
-    }
-    photosList.appendChild(newPhoto);
-    newPhoto.src = item;
-  });
-};
+//   generatedPhotos.forEach((item) => {
+//     const newPhoto = photo.cloneNode(true);
+//     if (item === undefined) {
+//       newPhoto.classlist.add('hidden');
+//     }
+//     photosList.appendChild(newPhoto);
+//     newPhoto.src = item;
+//   });
+// };
 
 const renderCard = (card) => {
 
@@ -56,7 +56,7 @@ const renderCard = (card) => {
   setData(newCard.querySelector('.popup__description'), card.offer.description, 'textContent');
 
   if (card.offer.features) {
-  createFeatures(newCard.querySelectorAll('.popup__feature'), card.offer.features);
+    createFeatures(newCard.querySelectorAll('.popup__feature'), card.offer.features);
   }
   // createPhotos(newCard.querySelector('.popup__photos'), newCard.querySelector('.popup__photo'), card.offer.photos);
 
