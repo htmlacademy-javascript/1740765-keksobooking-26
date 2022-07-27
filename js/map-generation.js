@@ -1,18 +1,18 @@
 import {changeState} from './change-state.js';
 import {renderCard} from './markup.js';
-import {createFewAds} from './data.js';
 import {TOKYO_CENTER_COORDINATES} from './util.js';
 import {getData} from './load.js';
-const generatedAds = createFewAds(3);
-
 const resetButton = document.querySelector('.ad-form__reset');
+
+changeState(true);
+
 const map = L.map('map-canvas')
   .setView({
     lat: TOKYO_CENTER_COORDINATES.lat,
     lng: TOKYO_CENTER_COORDINATES.lng,
   }, 10);
 
-map.whenReady(changeState);
+map.whenReady(() => changeState(false));
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -64,7 +64,9 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-generatedAds.forEach((ad) => {
+
+const addToMap = (data) => {
+data.forEach((ad) => {
   const {location: {lat, lng}} = ad;
   const pin = L.marker(
     {
@@ -81,3 +83,14 @@ generatedAds.forEach((ad) => {
     .bindPopup(renderCard(ad));
 
 });
+};
+
+const whatever = function (data) {
+  console.log(data);
+}
+
+getData((xd) => {
+  whatever(xd);
+});
+
+export {addToMap};
