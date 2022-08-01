@@ -39,6 +39,25 @@ function getRandomPositiveFloat (a, b, digits) {
   return +result.toFixed(digits);
 }
 
-export {getRandomPositiveInteger};
-export {getRandomPositiveFloat};
-export {TOKYO_CENTER_COORDINATES};
+const escPressed = (evt) => evt.key === ('Escape' || 'Esc');
+
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+function throttle (callback, delayBetweenFrames) {
+  let lastTime = 0;
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+}
+
+export {escPressed, getRandomPositiveInteger, getRandomPositiveFloat, TOKYO_CENTER_COORDINATES, debounce, throttle};

@@ -1,5 +1,5 @@
 import {changeState} from './change-state.js';
-import { getData } from './load.js';
+import {getData} from './load.js';
 import {renderCard} from './markup.js';
 import {TOKYO_CENTER_COORDINATES} from './util.js';
 const resetButton = document.querySelector('.ad-form__reset');
@@ -20,7 +20,8 @@ const clearMarkers = () => {
 
 const onSuccess = (data) => {
   clearMarkers();
-  data.forEach((ad) => createMarker(ad));
+  let preparedAds = data.slice(0, 10);
+  preparedAds.forEach((ad) => createMarker(ad));
 };
 
 changeState(true);
@@ -95,4 +96,3 @@ function createMarker(ad) {
     .bindPopup(renderCard(ad));
 
 }
-
