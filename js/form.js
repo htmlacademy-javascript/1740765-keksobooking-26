@@ -1,4 +1,7 @@
+import {sendData} from "./load.js";
+import {escPressed} from "./util.js";
 const form = document.querySelector('.ad-form');
+const submitButton = form.querySelector('.ad-form__submit');
 
 const roomsCapacityMap = {
   1: ['1'],
@@ -27,10 +30,59 @@ function getGuestsErrorMessage () {
 pristine.addValidator (rooms, validateGuests, getGuestsErrorMessage);
 pristine.addValidator (guests, validateGuests);
 
+const successModal = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+const errorModal = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+const closeErrorModal = errorModal.querySelector('.error__button');
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+const showSuccessModal = () => {
+  document.body.appendChild(successModal);
+  document.addEventListener('keydown', (evt) => {
+    if (escPressed(evt)) {
+      evt.preventDefault();
+      successModal.remove();
+    }
+  });
+  document.addEventListener('click', () => {
+    successModal.remove();
+  });
+};
+
+const showErrorModal = () => {
+  document.body.appendChild(errorModal);
+  document.addEventListener('keydown', (evt) => {
+    if (escPressed(evt)) {
+      evt.preventDefault();
+      errorModal.remove();
+    }
+  });
+  closeErrorModal.addEventListener('click', () => {
+    errorModal.remove();
+  });
+  document.addEventListener('click', () => {
+    errorModal.remove();
+  });
+};
+
+
 form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
   const isFormValid = pristine.validate();
   if (isFormValid) {
-    return true;
+    const formData = new FormData(evt.target);
+    blockSubmitButton();
+    sendData(() => {
+      showSuccessModal();
+      unblockSubmitButton();
+    }, showErrorModal, formData);
   }
-  evt.preventDefault();
 });
